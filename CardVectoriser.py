@@ -4,7 +4,8 @@ import numpy as np
 class CardVectoriser:
     
     def __init__(self):
-        pass
+        cardNameIndex = []
+        cardMatrix = []
 
     # A function to vectorise a card
     # Takes in a card as an array of values pulled from the cards .json file
@@ -153,10 +154,61 @@ class CardVectoriser:
         cards = json.loads(cards)
         cards = cards["data"]
 
-        cardDic = {}
+        cardNameIndex = []
+        cardMatrix = []
 
         # Iterates through all the cards
         for card in cards:
-            cardDic[card] = self.vectoriseCard(cards[card])
+            cardNameIndex.append(card)
+            cardMatrix.append(self.vectoriseCard(cards[card]))
+        
+        self.cardNameIndex = np.array(cardNameIndex)
+        self.cardMatrix = np.array(cardMatrix)
 
-        return cardDic
+
+    # Gets the vector for a card
+    def getVector(self, cardname):
+        return self.cardMatrix[self.cardNameIndex.searchsorted(cardname)]
+    
+    # Finds the n cards that are closest to the sum of two cards
+    def sumCards(self, cardName1, cardName2, n=1):
+        card1 = self.getVector(cardName1)
+        card2 = self.getVector(cardName2)
+
+        # Finds the closest match using the l2 norm
+        newCard = card1 + card2
+        closestMatch = self.cardNameIndex[np.argsort(np.linalg.norm(self.cardMatrix - newCard, 1, 1))][:n]
+
+        return closestMatch
+    
+    # Finds the n cards that are closest to the differents of two cards
+    def diffCards(self, cardName1, cardName2, n=1):
+        card1 = self.getVector(cardName1)
+        card2 = self.getVector(cardName2)
+
+        # Finds the closest match using the l2 norm
+        newCard = card1 - card2
+        closestMatch = self.cardNameIndex[np.argsort(np.linalg.norm(self.cardMatrix - newCard, 1, 1))][:n]
+
+        return closestMatch
+    
+    # Finds the n cards most similar to a card
+    def simCards(self, cardName, n=1):
+        card = self.getVector(cardName)
+
+        # Finds the closest matchs using the l2 norm
+        closestMatch = self.cardNameIndex[np.argsort(np.linalg.norm(self.cardMatrix - card, 1, 1))][:n]
+
+        return closestMatch
+    
+    # Finds the n cards most similar the mean of two cards
+    def midCards(self, cardName1, cardName2, n=1):
+        card1 = self.getVector(cardName1)
+        card2 = self.getVector(cardName2)
+
+        card = np.mean(np.array([card1, card2]), axis=0)
+
+        # Finds the closest matchs using the l2 norm
+        closestMatch = self.cardNameIndex[np.argsort(np.linalg.norm(self.cardMatrix - card, 1, 1))][:n]
+
+        return closestMatch
