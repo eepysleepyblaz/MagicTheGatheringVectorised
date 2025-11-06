@@ -25,8 +25,12 @@ class CardVectoriser:
         # Effects
         # Words that are found in effects to be cropped out of card text
         self.effects = ["draw", "mill", "lose", "life", "gain", "untap", "tap", "reveal", "deals", "dealt", "discard",
-                        "return", "hand", "exile", "destroy", "sacrifice", "target", "+1/+1", "additional", "enters", "create",
-                        "token", "dies"]
+                        "return", "hand", "exile", "destroy", "sacrifice", "target", "+1/+1", "+1" "additional", "enters",
+                        "create", "token", "dies", "prevent", "add", "{t}", "counter", "fight", "attack", "graveyard", "creature",
+                        "artifact", "enchantment", "land", "planeswalker", "battle", "instant", "sorcery", "aura", "equipment",
+                        "search", "historic", "crime", "end", "beginning", "transform", "block", "permanent", "copy", "look",
+                        "cast", "win", "lose", "card", "triggers", "with", "without", "all", "each", "{w}", "{u}", "{b}", "{r}",
+                        "{g}", "can't", "whenever", "cost", "less", "more", "double", "half"]
         
 
 
