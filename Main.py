@@ -1,20 +1,31 @@
 import CardVectoriser
+import numpy as np
 
 vectoriser = CardVectoriser.CardVectoriser()
 
 vectoriser.vectoriseDataSet("AtomicCards")
 
-print(vectoriser.sumCards("Mountain", "Swamp", 2))
+# Creates a vector representing a white pip
+whitePipVector = np.zeros((vectoriser.vectorSize, ))
+whitePipVector[0] = 1
+whitePipVector[5] = 1
+whitePipVector[10] = 1
 
-print(vectoriser.sumCards("Boros Swiftblade", "Vigilance", 10))
+print(vectoriser.sumCardVec("Raging Goblin", whitePipVector, 10))
 
-print(vectoriser.diffCards("Badlands", "Swamp", 2))
 
-print(vectoriser.diffCards("Ulamog, the Infinite Gyre", "Chatterfang, Squirrel General", 10))
+# Creates a vector representing a red pip
+redPipVector = np.zeros((vectoriser.vectorSize, ))
+redPipVector[3] = 1
+redPipVector[8] = 1
+redPipVector[10] = 1
 
-print(vectoriser.sumCards("Anti-Venom, Horrifying Healer", "Venom, Eddie Brock", 10))
 
-print(vectoriser.simCards("Opt", 10))
+print(vectoriser.diffCardVec("Goblin Rally", redPipVector, 10))
+
+
+print(vectoriser.simCards("Spark Reaper", 10))
+
 
 
 

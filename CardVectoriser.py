@@ -4,8 +4,35 @@ import numpy as np
 class CardVectoriser:
     
     def __init__(self):
-        cardNameIndex = []
-        cardMatrix = []
+        self.cardNameIndex = []
+        self.cardMatrix = []
+        
+        # Ability words
+        self.abilityWords = ["Adamant", "Addendum", "Alliance", "Battalion", "Bloodrush", "Celebration", "Channel", "Chroma", "Cohort", "Constellation", "Converge", "Corrupted", "Council's dilemma", "Coven", "Delirium", "Descend", "Domain", "Eerie", "Eminence", "Enrage", "Fateful hour", "Fathomless descent", "Ferocious", "Flurry", "Formidable", "Grandeur", "Hellbent", "Hero's Reward", "Heroic", "Imprint", "Inspired", "Join forces", "Kinfall", "Kinship", "Landfall", "Landship", "Legacy", "Lieutenant", "Magecraft", "Metalcraft", "Morbid", "Pack tactics", "Paradox", "Parley", "Radiance", "Raid", "Rally", "Renew", "Revolt", "Secret council", "Spell mastery", "Start your engines!", "Strive", "Survival", "Sweep", "Teamwork", "Tempting offer", "Threshold", "Underdog", "Undergrowth", "Valiant", "Void", "Will of the Planeswalkers", "Will of the council"]
+        # Keyword Abilties
+        self.keywordAbilities = ["Absorb", "Affinity", "Afflict", "Afterlife", "Aftermath", "Amplify", "Annihilator", "Ascend", "Assist", "Augment", "Aura Swap", "Awaken", "Backup", "Banding", "Bargain", "Basic landcycling", "Battle Cry", "Bestow", "Blitz", "Bloodthirst", "Boast", "Bushido", "Buyback", "Cascade", "Casualty", "Champion", "Changeling", "Choose a background", "Cipher", "Cleave", "Commander ninjutsu", "Companion", "Compleated", "Conspire", "Convoke", "Craft", "Crew", "Cumulative upkeep", "Cycling", "Dash", "Daybound", "Deathtouch", "Decayed", "Defender", "Delve", "Demonstrate", "Desertwalk", "Dethrone", "Devoid", "Devour", "Disguise", "Disturb", "Doctor's companion", "Double agenda", "Double strike", "Double team", "Dredge", "Echo", "Embalm", "Emerge", "Enchant", "Encore", "Enlist", "Entwine", "Epic", "Equip", "Escalate", "Escape", "Eternalize", "Evoke", "Evolve", "Exalted", "Exhaust", "Exploit", "Extort", "Fabricate", "Fading", "Fear", "First strike", "Flanking", "Flash", "Flashback", "Flying", "For Mirrodin!", "Forecast", "Forestcycling", "Forestwalk", "Foretell", "Fortify", "Freerunning", "Frenzy", "Friends forever", "Fuse", "Gift", "Graft", "Gravestorm", "Harmonize", "Haste", "Haunt", "Hexproof", "Hexproof from", "Hidden agenda", "Hideaway", "Horsemanship", "Impending", "Improvise", "Indestructible", "Infect", "Ingest", "Intensity", "Intimidate", "Islandcycling", "Islandwalk", "Job select", "Jump-start", "Kicker", "Landcycling", "Landwalk", "Legendary landwalk", "Level Up", "Lifelink", "Living metal", "Living weapon", "Madness", "Max speed", "Mayhem", "Megamorph", "Melee", "Menace", "Mentor", "Miracle", "Mobilize", "Modular", "More Than Meets the Eye", "Morph", "Mountaincycling", "Mountainwalk", "Multikicker", "Mutate", "Myriad", "Nightbound", "Ninjutsu", "Nonbasic landwalk", "Offering", "Offspring", "Outlast", "Overload", "Partner", "Partner with", "Persist", "Phasing", "Plainscycling", "Plainswalk", "Poisonous", "Protection", "Prototype", "Provoke", "Prowess", "Prowl", "Rampage", "Ravenous", "Reach", "Read Ahead", "Rebound", "Reconfigure", "Recover", "Reinforce", "Renown", "Replicate", "Retrace", "Riot", "Ripple", "Saddle", "Scavenge", "Shadow", "Shroud", "Skulk", "Slivercycling", "Soulbond", "Soulshift", "Specialize", "Spectacle", "Splice", "Split second", "Spree", "Squad", "Station", "Storm", "Sunburst", "Surge", "Suspend", "Swampcycling", "Swampwalk", "Toxic", "Training", "Trample", "Transfigure", "Transmute", "Tribute", "Typecycling", "Umbra armor", "Undaunted", "Undying", "Unearth", "Unleash", "Vanishing", "Vigilance", "Ward", "Warp", "Web-slinging", "Wither", "Wizardcycling"]
+        # Keyword Actions
+        self.keywordActions = ["Abandon", "Activate", "Adapt", "Amass", "Assemble", "Attach", "Behold", "Bolster", "Cast", "Clash", "Cloak", "Collect evidence", "Conjure", "Connive", "Convert", "Counter", "Create", "Destroy", "Detain", "Discard", "Discover", "Double", "Endure", "Exchange", "Exert", "Exile", "Explore", "Fateseal", "Fight", "Food", "Forage", "Goad", "Heist", "Incubate", "Investigate", "Learn", "Manifest", "Manifest dread", "Meld", "Mill", "Monstrosity", "Open an Attraction", "Planeswalk", "Play", "Plot", "Populate", "Proliferate", "Regenerate", "Reveal", "Role token", "Roll to Visit Your Attractions", "Sacrifice", "Scry", "Seek", "Set in motion", "Shuffle", "Support", "Surveil", "Suspect", "Tap", "Time Travel", "Transform", "Treasure", "Untap", "Venture into the dungeon", "Vote"]
+
+        # Subtypes
+        self.subtypes = ["Abian", "Adventure", "Advisor", "Aetherborn", "Ajani", "Alara", "Alfava Metraxis", "Alicorn", "Alien", "Ally", "Aminatou", "Amonkhet", "Amsterdam", "Androzani Minor", "Angel", "Angrath", "Antausia", "Antelope", "Apalapucia", "Ape", "Arcane", "Arcavios", "Archer", "Archon", "Arkhos", "Arlinn", "Armadillo", "Armored", "Army", "Art", "Artifact", "Artificer", "Artist", "Ashiok", "Assassin", "Assembly-Worker", "Astartes", "Athlete", "Atog", "Attraction", "Aura", "Aurochs", "Autobot", "Automaton", "Avatar", "Avishkar", "Azgol", "Azra", "B.O.B.", "Background", "Baddest,", "Badger", "Bahamut", "Balloon", "Barbarian", "Bard", "Barnyard", "Basilisk", "Basri", "Bat", "Bear", "Beast", "Beaver", "Beeble", "Beholder", "Belenon", "Berserker", "Biggest,", "Bird", "Bison", "Blind Eternities", "Blood", "Bloomburrow", "Boar", "Bobblehead", "Bolas", "Bolas's Meditation Realm", "Boxer", "Brainiac", "Bringer", "Brushwagg", "Bureaucrat", "Byode", "C'tan", "Calix", "Camel", "Capenna", "Capybara", "Carrier", "Cartouche", "Case", "Cat", "Cave", "Centaur", "Cephalid", "Chameleon", "Champion", "Chandra", "Chef", "Chicago", "Chicken", "Child", "Chimera", "Chorus", "Citizen", "Clamfolk", "Clamhattan", "Class", "Cleric", "Cloud", "Clown", "Clue", "Cockatrice", "Comet", "Construct", "Contraption", "Control", "Cow", "Coward", "Coyote", "Crab", "Cridhe", "Crocodile", "Curse", "Custodes", "Cyberman", "Cyborg", "Cyclops", "Dack", "Dakkon", "Dalek", "Daretti", "Darillium", "Dauthi", "Davriel", "Deb", "Deer", "Demigod", "Demon", "Desert", "Designer", "Detective", "Devil", "Dihada", "Dinosaur", "Djinn", "Doctor", "Dog", "Dominaria", "Domri", "Donkey", "Dovin", "Dragon", "Drake", "Dreadnought", "Drix", "Drone", "Druid", "Dryad", "Duck", "Dungeon", "Duskmourn", "Dwarf", "Earth", "Echidna", "Echoir", "Efreet", "Egg", "Elder", "Eldraine", "Eldrazi", "Elemental", "Elemental?", "Elephant", "Elf", "Elk", "Ellywick", "Elminster", "Elspeth", "Elves", "Employee", "Equilor", "Equipment", "Ergamon", "Ersta", "Estrid", "Etiquette", "Eye", "Fabacin", "Faerie", "Ferret", "Fiora", "Fire", "Fish", "Flagbearer", "Foldaria", "Food", "Forest", "Fortification", "Foundations", "Fox", "Fractal", "Freyalise", "Frog", "Fungus", "Gallifrey", "Gamer", "Gargantikar", "Gargoyle", "Garruk", "Gate", "Germ", "Giant", "Gideon", "Gith", "Glimmer", "Gnoll", "Gnome", "Goat", "Gobakhan", "Goblin", "God", "Gold", "Golem", "Gorgon", "Grandchild", "Graveborn", "Gremlin", "Griffin", "Grist", "Guest", "Guff", "Gus", "Hag", "Halfling", "Hamster", "Harpy", "Hatificer", "Hawk", "Head", "Hedgehog", "Hell", "Hellion", "Hero", "Hippo", "Hippogriff", "Homarid", "Homunculus", "Horror", "Horse", "Horsehead Nebula", "Huatli", "Human", "Human?", "Hydra", "Hyena", "Igpay", "Ikoria", "Illusion", "Imp", "Incarnation", "Incubator", "Infinity", "Inkling", "Innistrad", "Inquisitor", "Insect", "Inzerva", "Iquatana", "Ir", "Island", "Ixalan", "Jace", "Jackal", "Jared", "Jaya", "Jellyfish", "Jeska", "Judge", "Juggernaut", "Junk", "Kaito", "Kaldheim", "Kamigawa", "Kandoka", "Kangaroo", "Karn", "Karsus", "Kasmina", "Kavu", "Kaya", "Kephalai", "Key", "Killbot", "Kinshala", "Kiora", "Kirin", "Kithkin", "Knight", "Kobold", "Kolbahan", "Kor", "Koth", "Kraken", "Kylem", "Kyneth", "LaIR", "Lady", "Lair", "Lamia", "Lammasu", "Lander", "Las Vegas", "Leech", "Lemur", "Lesson", "Leviathan", "Lhurgoyf", "Licid", "Liliana", "Lizard", "Lobster", "Locus", "Lolth", "Lorwyn", "Lukka", "Luvion", "Luxior", "MagicCon", "Mammoth", "Manticore", "Map", "Mars", "Master", "Masticore", "Mercadia", "Mercenary", "Merfolk", "Metathran", "Mime", "Mine", "Minion", "Minotaur", "Minsc", "Mirrodin", "Mission", "Mite", "Moag", "Mole", "Monger", "Mongoose", "Mongseng", "Monk", "Monkey", "Moogle", "Moon", "Moonfolk", "Mordenkainen", "Mount", "Mountain", "Mouse", "Mummy", "Muraganda", "Mutagen", "Mutant", "Myr", "Mystic", "Naga", "Nahiri", "Narset", "Nastiest,", "Nautilus", "Necron", "Necros", "Nephilim", "New Earth", "New Phyrexia", "Nightmare", "Nightstalker", "Niko", "Ninja", "Nissa", "Nixilis", "Noble", "Noggle", "Nomad", "Nymph", "Octopus", "Ogre", "Oko", "Omen", "Omenpath", "Ooze", "Orc", "Orgg", "Otter", "Ouphe", "Outside Mutter's Spiral", "Ox", "Oyster", "Pangolin", "Paratrooper", "Peasant", "Pegasus", "Penguin", "Pentavite", "Performer", "Pest", "Phelddagrif", "Phoenix", "Phyrexia", "Phyrexian", "Pilot", "Pirate", "Plains", "Planet", "Plant", "Point", "Pony", "Porcupine", "Possum", "Power-Plant", "Powerstone", "Praetor", "Primarch", "Processor", "Proper", "Pyrulea", "Qu", "Quest", "Quintorius", "Rabbit", "Rabiah", "Raccoon", "Ral", "Ranger", "Rat", "Rath", "Ravnica", "Realm", "Rebel", "Reflection", "Regatha", "Reveler", "Rhino", "Rigger", "Robot", "Rogue", "Role", "Room", "Rowan", "Rukh", "Rune", "Sable", "Saga", "Saheeli", "Salamander", "Samurai", "Samut", "Sand", "Saproling", "Sarkhan", "Satyr", "Scarecrow", "Scientist", "Scion", "Scorpion", "Scout", "Sculpture", "Seal", "Secret", "Secret Lair", "Segovia", "Serf", "Serpent", "Serra", "Serra’s Realm", "Servo", "Shade", "Shadowmoor", "Shaman", "Shandalar", "Shapeshifter", "Shard", "Shark", "Sheep", "Shenmeng", "Ship", "Shrine", "Siege", "Siren", "Sivitri", "Skaro", "Skeleton", "Skunk", "Slith", "Sliver", "Sloth", "Slug", "Snail", "Snake", "Soldier", "Soltari", "Sorcerer", "Sorin", "Spacecraft", "Spawn", "Specter", "Spellshaper", "Sphere", "Sphinx", "Spider", "Spike", "Spirit", "Splinter", "Sponge", "Spuzzem", "Spy", "Squid", "Squirrel", "Starfish", "Stone", "Surrakar", "Survivor", "Svega", "Swamp", "Symbiote", "Synth", "Szat", "Tamiyo", "Tarkir", "Tasha", "Teddy", "Teferi", "Tentacle", "Teyo", "Tezzeret", "Thalakos", "The", "The Abyss", "The Dalek Asylum", "The Library", "Theros", "Thopter", "Thrull", "Thunder Junction", "Tibalt", "Tiefling", "Time", "Time Lord", "Tower", "Town", "Townsfolk", "Toy", "Trap", "Treasure", "Tree", "Treefolk", "Trenzalore", "Trilobite", "Triskelavite", "Troll", "Turtle", "Tyranid", "Tyvar", "Ugin", "Ulamog's", "Ulgrotha", "Undercity", "Unicorn", "Universia Beyondia", "Unknown Planet", "Urza", "Urza's", "Urzan", "Utrom", "Valla", "Vampire", "Vampyre", "Varmint", "Vedalken", "Vehicle", "Venser", "Villain", "Vivien", "Volver", "Vraska", "Vronos", "Vryn", "Waiter", "Wall", "Walrus", "Wanderer", "Warlock", "Warrior", "Weasel", "Weird", "Werewolf", "Whale", "Wildfire", "Will", "Windgrace", "Wizard", "Wolf", "Wolverine", "Wombat", "Worm", "Wraith", "Wrenn", "Wrestler", "Wurm", "Xenagos", "Xerex", "Yanggu", "Yanling", "Yeti", "You", "Zariel", "Zendikar", "Zhalfir", "Zombie", "Zonian", "Zubera", "and/or", "of", "sECreT"]
+        # Supertypes
+        self.supertypes = ["Basic", "Host", "Legendary", "Ongoing", "Snow", "World"]
+        # Types
+        self.types = ["Artifact", "Battle", "Boss", "Card", "Conspiracy", "Creature", "Dragon", "Dungeon", "Eaturecray", "Elemental", "Elite", "Emblem", "Enchantment", "Ever", "Goblin", "Hero", "Instant", "Jaguar", "Kindred", "Knights", "Land", "Legend", "Licid", "Phenome-nom", "Phenomenon", "Plane", "Planeswalker", "Poly", "Scariest", "Scheme", "See", "Sorcery", "Stickers", "Summon", "Token", "Tolkien", "Tribal", "Universewalker", "Vanguard", "Wolf", "You'll", "instant", "pLAnE"]
+        
+
+        # Effects
+        # Words that are found in effects to be cropped out of card text
+        self.effects = ["draw", "mill", "lose", "life", "gain", "untap", "tap", "reveal", "deals", "dealt", "discard",
+                        "return", "hand", "exile", "destroy", "sacrifice", "target", "+1/+1", "additional", "enters", "create",
+                        "token", "dies"]
+        
+
+
+        # Vector size
+        self.vectorSize = 14 + len(self.effects) + len(self.abilityWords) + len(self.keywordAbilities) + len(self.keywordActions) + len(self.subtypes) + len(self.supertypes) + len(self.types)
+
 
     # A function to vectorise a card
     # Takes in a card as an array of values pulled from the cards .json file
@@ -32,31 +59,14 @@ class CardVectoriser:
     -
     - Types
     -
-    - Effect <- Addlater
+    - Effect
     """
 
     def vectoriseCard(self, card):
         
 
-        # Ability words
-        abilityWords = ["Adamant", "Addendum", "Alliance", "Battalion", "Bloodrush", "Celebration", "Channel", "Chroma", "Cohort", "Constellation", "Converge", "Corrupted", "Council's dilemma", "Coven", "Delirium", "Descend", "Domain", "Eerie", "Eminence", "Enrage", "Fateful hour", "Fathomless descent", "Ferocious", "Flurry", "Formidable", "Grandeur", "Hellbent", "Hero's Reward", "Heroic", "Imprint", "Inspired", "Join forces", "Kinfall", "Kinship", "Landfall", "Landship", "Legacy", "Lieutenant", "Magecraft", "Metalcraft", "Morbid", "Pack tactics", "Paradox", "Parley", "Radiance", "Raid", "Rally", "Renew", "Revolt", "Secret council", "Spell mastery", "Start your engines!", "Strive", "Survival", "Sweep", "Teamwork", "Tempting offer", "Threshold", "Underdog", "Undergrowth", "Valiant", "Void", "Will of the Planeswalkers", "Will of the council"]
-        # Keyword Abilties
-        keywordAbilities = ["Absorb", "Affinity", "Afflict", "Afterlife", "Aftermath", "Amplify", "Annihilator", "Ascend", "Assist", "Augment", "Aura Swap", "Awaken", "Backup", "Banding", "Bargain", "Basic landcycling", "Battle Cry", "Bestow", "Blitz", "Bloodthirst", "Boast", "Bushido", "Buyback", "Cascade", "Casualty", "Champion", "Changeling", "Choose a background", "Cipher", "Cleave", "Commander ninjutsu", "Companion", "Compleated", "Conspire", "Convoke", "Craft", "Crew", "Cumulative upkeep", "Cycling", "Dash", "Daybound", "Deathtouch", "Decayed", "Defender", "Delve", "Demonstrate", "Desertwalk", "Dethrone", "Devoid", "Devour", "Disguise", "Disturb", "Doctor's companion", "Double agenda", "Double strike", "Double team", "Dredge", "Echo", "Embalm", "Emerge", "Enchant", "Encore", "Enlist", "Entwine", "Epic", "Equip", "Escalate", "Escape", "Eternalize", "Evoke", "Evolve", "Exalted", "Exhaust", "Exploit", "Extort", "Fabricate", "Fading", "Fear", "First strike", "Flanking", "Flash", "Flashback", "Flying", "For Mirrodin!", "Forecast", "Forestcycling", "Forestwalk", "Foretell", "Fortify", "Freerunning", "Frenzy", "Friends forever", "Fuse", "Gift", "Graft", "Gravestorm", "Harmonize", "Haste", "Haunt", "Hexproof", "Hexproof from", "Hidden agenda", "Hideaway", "Horsemanship", "Impending", "Improvise", "Indestructible", "Infect", "Ingest", "Intensity", "Intimidate", "Islandcycling", "Islandwalk", "Job select", "Jump-start", "Kicker", "Landcycling", "Landwalk", "Legendary landwalk", "Level Up", "Lifelink", "Living metal", "Living weapon", "Madness", "Max speed", "Mayhem", "Megamorph", "Melee", "Menace", "Mentor", "Miracle", "Mobilize", "Modular", "More Than Meets the Eye", "Morph", "Mountaincycling", "Mountainwalk", "Multikicker", "Mutate", "Myriad", "Nightbound", "Ninjutsu", "Nonbasic landwalk", "Offering", "Offspring", "Outlast", "Overload", "Partner", "Partner with", "Persist", "Phasing", "Plainscycling", "Plainswalk", "Poisonous", "Protection", "Prototype", "Provoke", "Prowess", "Prowl", "Rampage", "Ravenous", "Reach", "Read Ahead", "Rebound", "Reconfigure", "Recover", "Reinforce", "Renown", "Replicate", "Retrace", "Riot", "Ripple", "Saddle", "Scavenge", "Shadow", "Shroud", "Skulk", "Slivercycling", "Soulbond", "Soulshift", "Specialize", "Spectacle", "Splice", "Split second", "Spree", "Squad", "Station", "Storm", "Sunburst", "Surge", "Suspend", "Swampcycling", "Swampwalk", "Toxic", "Training", "Trample", "Transfigure", "Transmute", "Tribute", "Typecycling", "Umbra armor", "Undaunted", "Undying", "Unearth", "Unleash", "Vanishing", "Vigilance", "Ward", "Warp", "Web-slinging", "Wither", "Wizardcycling"]
-        # Keyword Actions
-        keywordActions = ["Abandon", "Activate", "Adapt", "Amass", "Assemble", "Attach", "Behold", "Bolster", "Cast", "Clash", "Cloak", "Collect evidence", "Conjure", "Connive", "Convert", "Counter", "Create", "Destroy", "Detain", "Discard", "Discover", "Double", "Endure", "Exchange", "Exert", "Exile", "Explore", "Fateseal", "Fight", "Food", "Forage", "Goad", "Heist", "Incubate", "Investigate", "Learn", "Manifest", "Manifest dread", "Meld", "Mill", "Monstrosity", "Open an Attraction", "Planeswalk", "Play", "Plot", "Populate", "Proliferate", "Regenerate", "Reveal", "Role token", "Roll to Visit Your Attractions", "Sacrifice", "Scry", "Seek", "Set in motion", "Shuffle", "Support", "Surveil", "Suspect", "Tap", "Time Travel", "Transform", "Treasure", "Untap", "Venture into the dungeon", "Vote"]
-
-        # Subtypes
-        subtypes = ["Abian", "Adventure", "Advisor", "Aetherborn", "Ajani", "Alara", "Alfava Metraxis", "Alicorn", "Alien", "Ally", "Aminatou", "Amonkhet", "Amsterdam", "Androzani Minor", "Angel", "Angrath", "Antausia", "Antelope", "Apalapucia", "Ape", "Arcane", "Arcavios", "Archer", "Archon", "Arkhos", "Arlinn", "Armadillo", "Armored", "Army", "Art", "Artifact", "Artificer", "Artist", "Ashiok", "Assassin", "Assembly-Worker", "Astartes", "Athlete", "Atog", "Attraction", "Aura", "Aurochs", "Autobot", "Automaton", "Avatar", "Avishkar", "Azgol", "Azra", "B.O.B.", "Background", "Baddest,", "Badger", "Bahamut", "Balloon", "Barbarian", "Bard", "Barnyard", "Basilisk", "Basri", "Bat", "Bear", "Beast", "Beaver", "Beeble", "Beholder", "Belenon", "Berserker", "Biggest,", "Bird", "Bison", "Blind Eternities", "Blood", "Bloomburrow", "Boar", "Bobblehead", "Bolas", "Bolas's Meditation Realm", "Boxer", "Brainiac", "Bringer", "Brushwagg", "Bureaucrat", "Byode", "C'tan", "Calix", "Camel", "Capenna", "Capybara", "Carrier", "Cartouche", "Case", "Cat", "Cave", "Centaur", "Cephalid", "Chameleon", "Champion", "Chandra", "Chef", "Chicago", "Chicken", "Child", "Chimera", "Chorus", "Citizen", "Clamfolk", "Clamhattan", "Class", "Cleric", "Cloud", "Clown", "Clue", "Cockatrice", "Comet", "Construct", "Contraption", "Control", "Cow", "Coward", "Coyote", "Crab", "Cridhe", "Crocodile", "Curse", "Custodes", "Cyberman", "Cyborg", "Cyclops", "Dack", "Dakkon", "Dalek", "Daretti", "Darillium", "Dauthi", "Davriel", "Deb", "Deer", "Demigod", "Demon", "Desert", "Designer", "Detective", "Devil", "Dihada", "Dinosaur", "Djinn", "Doctor", "Dog", "Dominaria", "Domri", "Donkey", "Dovin", "Dragon", "Drake", "Dreadnought", "Drix", "Drone", "Druid", "Dryad", "Duck", "Dungeon", "Duskmourn", "Dwarf", "Earth", "Echidna", "Echoir", "Efreet", "Egg", "Elder", "Eldraine", "Eldrazi", "Elemental", "Elemental?", "Elephant", "Elf", "Elk", "Ellywick", "Elminster", "Elspeth", "Elves", "Employee", "Equilor", "Equipment", "Ergamon", "Ersta", "Estrid", "Etiquette", "Eye", "Fabacin", "Faerie", "Ferret", "Fiora", "Fire", "Fish", "Flagbearer", "Foldaria", "Food", "Forest", "Fortification", "Foundations", "Fox", "Fractal", "Freyalise", "Frog", "Fungus", "Gallifrey", "Gamer", "Gargantikar", "Gargoyle", "Garruk", "Gate", "Germ", "Giant", "Gideon", "Gith", "Glimmer", "Gnoll", "Gnome", "Goat", "Gobakhan", "Goblin", "God", "Gold", "Golem", "Gorgon", "Grandchild", "Graveborn", "Gremlin", "Griffin", "Grist", "Guest", "Guff", "Gus", "Hag", "Halfling", "Hamster", "Harpy", "Hatificer", "Hawk", "Head", "Hedgehog", "Hell", "Hellion", "Hero", "Hippo", "Hippogriff", "Homarid", "Homunculus", "Horror", "Horse", "Horsehead Nebula", "Huatli", "Human", "Human?", "Hydra", "Hyena", "Igpay", "Ikoria", "Illusion", "Imp", "Incarnation", "Incubator", "Infinity", "Inkling", "Innistrad", "Inquisitor", "Insect", "Inzerva", "Iquatana", "Ir", "Island", "Ixalan", "Jace", "Jackal", "Jared", "Jaya", "Jellyfish", "Jeska", "Judge", "Juggernaut", "Junk", "Kaito", "Kaldheim", "Kamigawa", "Kandoka", "Kangaroo", "Karn", "Karsus", "Kasmina", "Kavu", "Kaya", "Kephalai", "Key", "Killbot", "Kinshala", "Kiora", "Kirin", "Kithkin", "Knight", "Kobold", "Kolbahan", "Kor", "Koth", "Kraken", "Kylem", "Kyneth", "LaIR", "Lady", "Lair", "Lamia", "Lammasu", "Lander", "Las Vegas", "Leech", "Lemur", "Lesson", "Leviathan", "Lhurgoyf", "Licid", "Liliana", "Lizard", "Lobster", "Locus", "Lolth", "Lorwyn", "Lukka", "Luvion", "Luxior", "MagicCon", "Mammoth", "Manticore", "Map", "Mars", "Master", "Masticore", "Mercadia", "Mercenary", "Merfolk", "Metathran", "Mime", "Mine", "Minion", "Minotaur", "Minsc", "Mirrodin", "Mission", "Mite", "Moag", "Mole", "Monger", "Mongoose", "Mongseng", "Monk", "Monkey", "Moogle", "Moon", "Moonfolk", "Mordenkainen", "Mount", "Mountain", "Mouse", "Mummy", "Muraganda", "Mutagen", "Mutant", "Myr", "Mystic", "Naga", "Nahiri", "Narset", "Nastiest,", "Nautilus", "Necron", "Necros", "Nephilim", "New Earth", "New Phyrexia", "Nightmare", "Nightstalker", "Niko", "Ninja", "Nissa", "Nixilis", "Noble", "Noggle", "Nomad", "Nymph", "Octopus", "Ogre", "Oko", "Omen", "Omenpath", "Ooze", "Orc", "Orgg", "Otter", "Ouphe", "Outside Mutter's Spiral", "Ox", "Oyster", "Pangolin", "Paratrooper", "Peasant", "Pegasus", "Penguin", "Pentavite", "Performer", "Pest", "Phelddagrif", "Phoenix", "Phyrexia", "Phyrexian", "Pilot", "Pirate", "Plains", "Planet", "Plant", "Point", "Pony", "Porcupine", "Possum", "Power-Plant", "Powerstone", "Praetor", "Primarch", "Processor", "Proper", "Pyrulea", "Qu", "Quest", "Quintorius", "Rabbit", "Rabiah", "Raccoon", "Ral", "Ranger", "Rat", "Rath", "Ravnica", "Realm", "Rebel", "Reflection", "Regatha", "Reveler", "Rhino", "Rigger", "Robot", "Rogue", "Role", "Room", "Rowan", "Rukh", "Rune", "Sable", "Saga", "Saheeli", "Salamander", "Samurai", "Samut", "Sand", "Saproling", "Sarkhan", "Satyr", "Scarecrow", "Scientist", "Scion", "Scorpion", "Scout", "Sculpture", "Seal", "Secret", "Secret Lair", "Segovia", "Serf", "Serpent", "Serra", "Serra’s Realm", "Servo", "Shade", "Shadowmoor", "Shaman", "Shandalar", "Shapeshifter", "Shard", "Shark", "Sheep", "Shenmeng", "Ship", "Shrine", "Siege", "Siren", "Sivitri", "Skaro", "Skeleton", "Skunk", "Slith", "Sliver", "Sloth", "Slug", "Snail", "Snake", "Soldier", "Soltari", "Sorcerer", "Sorin", "Spacecraft", "Spawn", "Specter", "Spellshaper", "Sphere", "Sphinx", "Spider", "Spike", "Spirit", "Splinter", "Sponge", "Spuzzem", "Spy", "Squid", "Squirrel", "Starfish", "Stone", "Surrakar", "Survivor", "Svega", "Swamp", "Symbiote", "Synth", "Szat", "Tamiyo", "Tarkir", "Tasha", "Teddy", "Teferi", "Tentacle", "Teyo", "Tezzeret", "Thalakos", "The", "The Abyss", "The Dalek Asylum", "The Library", "Theros", "Thopter", "Thrull", "Thunder Junction", "Tibalt", "Tiefling", "Time", "Time Lord", "Tower", "Town", "Townsfolk", "Toy", "Trap", "Treasure", "Tree", "Treefolk", "Trenzalore", "Trilobite", "Triskelavite", "Troll", "Turtle", "Tyranid", "Tyvar", "Ugin", "Ulamog's", "Ulgrotha", "Undercity", "Unicorn", "Universia Beyondia", "Unknown Planet", "Urza", "Urza's", "Urzan", "Utrom", "Valla", "Vampire", "Vampyre", "Varmint", "Vedalken", "Vehicle", "Venser", "Villain", "Vivien", "Volver", "Vraska", "Vronos", "Vryn", "Waiter", "Wall", "Walrus", "Wanderer", "Warlock", "Warrior", "Weasel", "Weird", "Werewolf", "Whale", "Wildfire", "Will", "Windgrace", "Wizard", "Wolf", "Wolverine", "Wombat", "Worm", "Wraith", "Wrenn", "Wrestler", "Wurm", "Xenagos", "Xerex", "Yanggu", "Yanling", "Yeti", "You", "Zariel", "Zendikar", "Zhalfir", "Zombie", "Zonian", "Zubera", "and/or", "of", "sECreT"]
-        # Supertypes
-        supertypes = ["Basic", "Host", "Legendary", "Ongoing", "Snow", "World"]
-        # Types
-        types = ["Artifact", "Battle", "Boss", "Card", "Conspiracy", "Creature", "Dragon", "Dungeon", "Eaturecray", "Elemental", "Elite", "Emblem", "Enchantment", "Ever", "Goblin", "Hero", "Instant", "Jaguar", "Kindred", "Knights", "Land", "Legend", "Licid", "Phenome-nom", "Phenomenon", "Plane", "Planeswalker", "Poly", "Scariest", "Scheme", "See", "Sorcery", "Stickers", "Summon", "Token", "Tolkien", "Tribal", "Universewalker", "Vanguard", "Wolf", "You'll", "instant", "pLAnE"]
-
-        
-        # Vector size
-        vectorSize = 14 + len(abilityWords) + len(keywordAbilities) + len(keywordActions) + len(subtypes) + len(supertypes) + len(types)
         card = card[0]
-        cardVector = np.zeros((vectorSize, ))
+        cardVector = np.zeros((self.vectorSize, ))
         
         
         # Sets the colour idenity values
@@ -94,24 +104,24 @@ class CardVectoriser:
 
         # Loops for each ability word and sets wether it exists or not
         position = 11
-        for i in range(len(abilityWords)):
+        for i in range(len(self.abilityWords)):
             position += 1
             if "keywords" in card:
-                if abilityWords[i] in card["keywords"]:
+                if self.abilityWords[i] in card["keywords"]:
                     cardVector[position] = 1
 
         # Loops for each keyword and sets wether it exists or not
-        for i in range(len(abilityWords)):
+        for i in range(len(self.abilityWords)):
             position += 1
             if "keywords" in card:
-                if keywordAbilities[i] in card["keywords"]:
+                if self.keywordAbilities[i] in card["keywords"]:
                     cardVector[position] = 1
 
         # Loops for each keyword action and sets wether it exists or not
-        for i in range(len(abilityWords)):
+        for i in range(len(self.abilityWords)):
             position += 1
             if "keywords" in card:
-                if keywordActions[i] in card["keywords"]:
+                if self.keywordActions[i] in card["keywords"]:
                     cardVector[position] = 1
 
         # Power and Toughness
@@ -128,22 +138,30 @@ class CardVectoriser:
         position += 2
 
         # Loops for each supertype and sets wether it exists or not
-        for i in range(len(supertypes)):
+        for i in range(len(self.supertypes)):
             position += 1
-            if supertypes[i] in card["supertypes"]:
+            if self.supertypes[i] in card["supertypes"]:
                 cardVector[position] = 1
 
         # Loops for each type and sets wether it exists or not
-        for i in range(len(types)):
+        for i in range(len(self.types)):
             position += 1
-            if types[i] in card["types"]:
+            if self.types[i] in card["types"]:
                 cardVector[position] = 1
 
         # Loops for each subtype and sets wether it exists or not
-        for i in range(len(subtypes)):
+        for i in range(len(self.subtypes)):
             position += 1
-            if subtypes[i] in card["subtypes"]:
+            if self.subtypes[i] in card["subtypes"]:
                 cardVector[position] = 1
+
+        # Loops through each effect and sees if it appears in the card text
+        for i in range(len(self.effects)):
+            position += 1
+            if "text" in card:
+                if self.effects[i] in card["text"].lower():
+                    cardVector[position] = 1
+
 
         return cardVector
 
@@ -159,8 +177,13 @@ class CardVectoriser:
 
         # Iterates through all the cards
         for card in cards:
-            cardNameIndex.append(card)
-            cardMatrix.append(self.vectoriseCard(cards[card]))
+            if "isFunny" in cards[card][0]:
+                if cards[card][0]["isFunny"] == False:
+                    cardNameIndex.append(card)
+                    cardMatrix.append(self.vectoriseCard(cards[card]))
+            else:
+                cardNameIndex.append(card)
+                cardMatrix.append(self.vectoriseCard(cards[card]))
         
         self.cardNameIndex = np.array(cardNameIndex)
         self.cardMatrix = np.array(cardMatrix)
@@ -210,5 +233,26 @@ class CardVectoriser:
 
         # Finds the closest matchs using the l2 norm
         closestMatch = self.cardNameIndex[np.argsort(np.linalg.norm(self.cardMatrix - card, 1, 1))][:n]
+
+        return closestMatch
+    
+
+    # Finds the n cards that are closest to the sum of a card and a card vector
+    def sumCardVec(self, cardName1, vec, n=1):
+        card1 = self.getVector(cardName1)
+
+        # Finds the closest match using the l2 norm
+        newCard = card1 + vec
+        closestMatch = self.cardNameIndex[np.argsort(np.linalg.norm(self.cardMatrix - newCard, 1, 1))][:n]
+
+        return closestMatch
+    
+    # Finds the n cards that are closest to the differents of a card and a card vector
+    def diffCardVec(self, cardName1, vec, n=1):
+        card1 = self.getVector(cardName1)
+
+        # Finds the closest match using the l2 norm
+        newCard = card1 - vec
+        closestMatch = self.cardNameIndex[np.argsort(np.linalg.norm(self.cardMatrix - newCard, 1, 1))][:n]
 
         return closestMatch
